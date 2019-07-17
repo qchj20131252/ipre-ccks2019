@@ -16,14 +16,13 @@ def transform(data_filepath, relation_filepath, output_filepath):
             print(data_split[0],relation_split[0])
             print('ERROR!数据不匹配')
             break
-        relation_ids = []
-        for id in relation_split[-1].split(' '):
-            relation_ids.append(int(id))
+        if ' ' in relation_split[-1]:
+            continue
         result_dict = {'id': data_split[0],
                        'sub': data_split[1],
                        'obj': data_split[2],
                        'text': data_split[3].replace(' ', '').strip(),
-                       'relation_id': relation_ids
+                       'relation_id': int(relation_split[-1])
                        }
         result_list.append(result_dict)
     json.dump(result_list, open(output_filepath, mode='w', encoding='utf-8'), ensure_ascii=False, indent=4)
